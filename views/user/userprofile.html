@@ -1,0 +1,211 @@
+{% extends '../layout.html' %}
+
+{% block head-css%}
+    <!-- Custom styles for this template -->
+    <link href="css/dashbaord.css" rel="stylesheet">
+{% endblock %}
+{% block head-js%}
+{% endblock %}
+
+{% block content %}
+    <div class="container-fluid">
+        <div class="col-sm-3 col-md-2 sidebar">
+          <ul class="nav nav-sidebar">
+            <li class="active"><a href="#">User Profile</a></li>
+            <li><a href="/dashboard">Dashboard</a></li>
+            <li><a href="#">Something else</a></li>
+            <li><a href="#">Export</a></li>
+          </ul>
+        </div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+          <div id="client-details" class="row">
+			  <div class="panel panel-info">
+			  	  <div class="panel-heading">
+					<strong> User Info for {{ userdetails.display_name }} </strong> 
+				  </div>
+				  <div class="panel-body">
+
+					  <div class="panel panel-default">
+					  	  <div class="panel-heading">
+							<strong> TimelineIQ Details </strong> 
+						  </div>
+						  <div class="panel-body">
+			  		          <div class="row">
+					  	        <div class="col-lg-3">
+									User ID:
+						        </div> 
+					  	        <div class="col-lg-9">
+					  	        	{{ userlicencedetails.USER_ID }}
+						        </div> 
+							  </div>
+			  		          <div class="row">
+					  	        <div class="col-lg-3">
+									User Display Name:
+						        </div> 
+					  	        <div class="col-lg-9">
+					  	        	{{ userlicencedetails.USER_DISPLAY_NAME }}
+						        </div> 
+							  </div>
+			  		          <div class="row">
+					  	        <div class="col-lg-3">
+									User IsActive:
+						        </div> 
+					  	        <div class="col-lg-9">
+					  	        	{{ userlicencedetails.USER_ACTIVE }}
+						        </div> 
+							  </div>
+			  		          <div class="row">
+					  	        <div class="col-lg-3">
+									User Organization:
+						        </div> 
+					  	        <div class="col-lg-9">
+					  	        	{{ userlicencedetails.USER_ORG_NAME }}
+						        </div> 
+							  </div>
+			  		          <div class="row">
+					  	        <div class="col-lg-3">
+									User Roles:
+						        </div> 
+					  	        <div class="col-lg-9">
+					  	        	{{ userlicencedetails.USER_ROLES }}
+						        </div> 
+							  </div>
+			  		          <div class="row">
+					  	        <div class="col-lg-3">
+									License ID:
+						        </div> 	
+					  	        <div class="col-lg-9">
+					  	        	{{ userlicencedetails.LIC_ID }}
+						        </div> 
+							  </div>
+			  		          <div class="row">
+					  	        <div class="col-lg-3">
+									License IsAcvive:
+						        </div> 	
+					  	        <div class="col-lg-9">
+					  	        	{{ userlicencedetails.LIC_ACTIVE }}
+						        </div> 
+							  </div>
+			  		          <div class="row">
+					  	        <div class="col-lg-3">
+									License Start Date:
+						        </div> 	
+					  	        <div class="col-lg-9">
+					  	        	{{ userlicencedetails.LIC_START_DATE|date('d-M-Y') }}
+						        </div> 
+							  </div>
+			  		          <div class="row">
+					  	        <div class="col-lg-3">
+									License End Date:
+						        </div> 	
+					  	        <div class="col-lg-9">
+					  	        	{{ userlicencedetails.LIC_END_DATE|date('d-M-Y') }}
+						        </div> 
+							  </div>
+						  </div>
+					 </div>
+
+					  <div class="panel panel-default">
+					  	  <div class="panel-heading">
+							<strong> Salesforce Details </strong> 
+						  </div>
+						  <div class="panel-body">
+			  		          <div class="row">
+					  	        <div class="col-lg-3">
+									User Name:
+						        </div> 
+					  	        <div class="col-lg-9">
+					  	        	{{ userdetails.username }}
+						        </div> 
+							  </div>
+			  		          <div class="row">
+					  	        <div class="col-lg-3">
+									Nickname:
+						        </div> 
+					  	        <div class="col-lg-9">
+					  	        	{{ userdetails.nick_name }}
+						        </div> 
+							  </div>
+			  		          <div class="row">
+					  	        <div class="col-lg-3">
+									Email:
+						        </div> 
+					  	        <div class="col-lg-9">
+					  	        	{{ userdetails.email }}
+						        </div> 
+							  </div>
+			  		          <div class="row">
+					  	        <div class="col-lg-3">
+									FirstName LastName:
+						        </div> 
+					  	        <div class="col-lg-9">
+					  	        	{{ userdetails.first_name}}  {{ userdetails.last_name}} 
+						        </div> 
+							  </div>
+			  		          <div class="row">
+					  	        <div class="col-lg-3">
+									Is User Asserted:
+						        </div> 
+					  	        <div class="col-lg-9">
+					  	        	{{ userdetails.asserted_user }}
+						        </div> 
+							  </div>
+			  		          <div class="row">
+					  	        <div class="col-lg-3">
+									User Type:
+						        </div> 
+					  	        <div class="col-lg-9">
+					  	        	{{ userdetails.user_type }}
+						        </div> 
+							  </div>
+			  		          <div class="row">
+					  	        <div class="col-lg-3">
+									User Active:
+						        </div> 
+					  	        <div class="col-lg-9">
+					  	        	{{ userdetails.active }}
+						        </div> 
+							  </div>
+			  		          <div class="row">
+					  	        <div class="col-lg-3">
+									User Language:
+						        </div> 
+					  	        <div class="col-lg-9">
+					  	        	{{ userdetails.language }}
+						        </div> 
+							  </div>
+			  		          <div class="row">
+					  	        <div class="col-lg-3">
+									User Locale:
+						        </div> 
+					  	        <div class="col-lg-9">
+					  	        	{{ userdetails.locale }}
+						        </div> 
+							  </div>
+			  		          <div class="row">
+					  	        <div class="col-lg-3">
+									UTC Offset:
+						        </div> 
+					  	        <div class="col-lg-9">
+					  	        	{{ userdetails.utcOffset }}
+						        </div> 
+							  </div>
+			  		          <div class="row">
+					  	        <div class="col-lg-3">
+									Last Modified Date:
+						        </div> 
+					  	        <div class="col-lg-9">
+					  	        	{{ userdetails.last_modified_date|date('d-M-Y') }}
+						        </div> 
+							  </div>
+				  		  </div>
+					 </div>
+				 </div>
+			  </div>
+		  </div>
+        </div>
+	</div>
+{% endblock %}
+
+{% block bottom-js%}
+{% endblock %}

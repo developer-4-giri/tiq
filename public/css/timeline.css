@@ -1,0 +1,22 @@
+	div.timeline-div {
+	    text-align: center;
+	}
+
+	h7.left-aligned-div-text {
+	    height: inherit;
+        width: inherit;
+	    vertical-align: bottom;
+	    margin-left: 0;
+        text-align: left;
+	    display: table-cell;
+	}
+    h7.right-aligned-div-text {
+        height: inherit;
+        width: inherit;
+		vertical-align: bottom;
+        margin-right: 0;
+        text-align: right;
+        display: table-cell;
+    }
+
+    .no-padding { padding: 0; }

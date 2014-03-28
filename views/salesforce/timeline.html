@@ -1,0 +1,225 @@
+{% extends '../layout.html' %}
+
+{% block head-css%}
+    <!-- Custom styles for this template -->
+    <link href="css/dashbaord.css" rel="stylesheet">
+    <link href="css/timeline.css" rel="stylesheet">
+{% endblock %}
+
+{% block head-js%}
+	<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+	<script src="js/timeline.js"></script>
+	<script src="js/jquery-1.11.0.min.js"></script>
+	<script type="text/javascript">
+		google.load("visualization", "1", {packages:["corechart"]});
+
+		$(function (){ 
+			$("[data-toggle='popover']").popover();
+		});
+	</script>
+{% endblock %}
+
+{% block content %}
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+          <ul class="nav nav-sidebar">
+            <li><a href="/dashboard">Dashboard</a></li>
+            <li class="active"><a href="#">Account - Timeline</a></li>
+            <li><a href="#">Something else</a></li>
+            <li><a href="#">Export</a></li>
+          </ul>
+        </div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+
+		<div id="client-id" class="hidden"> {{ accountdetails._fields.id }} </div>
+		<div id="client-annual-revenue" class="hidden"> {{ accountdetails._fields.annualrevenue }} </div>
+
+          <div id="client-details" class="row">
+			  <div class="panel panel-info">
+			  	  <div class="panel-heading">
+					     {{ accountdetails._fields.name }} 
+					     {% if accountdetails._fields.type %} 
+							( {{ accountdetails._fields.type}} )						
+						{% endif %}
+				  </div>
+				  <div class="panel-body">
+					  <div class="col-sm-4 text-left">
+							<label> Product/Services Bought : </label> <span id="prod-ser-bought" class="data-load-controls" service_url="getproductsbought"> </span> <br>
+							<p>
+								<label> Client Since : </label> <span id="client-since" class="data-load-controls" service_url="getclientsincedate"> </span> <br> 
+								<label> Introduced On : </label> <span id="introduced-on" class="data-load-controls" service_url="getintroducedondate"> </span> <br> 
+								<label> Time to Acquire : </label> <span id="time-to-acquire" class="data-load-controls" service_url="getimetoacquire" > </span> <br> 
+								<label> Acquired Through : </label> <span id="acquired-through" class="data-load-controls" service_url="getacquiredthrough"> </span> <br> 
+							</p>
+				      </div>
+					  <div class="col-sm-4 text-left">
+							<label> Record Owner : </label>
+							{% if accountdetails._fields.owner.Name %} 
+								{{ accountdetails._fields.owner.Name }}								
+							{% endif %}
+							<p>
+								<label id="det-sec2-2-label" > Customer Lifetime Value (CLV) : </label> <span id="cust-life-value" class="data-load-controls" service_url="getlifetimevalue"> </span> <br> 
+								<label id="det-sec2-3-label" > % Revenue Contribution : </label> <span id="revenue-contr" class="data-load-controls" service_url="getannualrevenuepercent"> </span>  <br> 
+							</p>
+				      </div>
+					  <div class="col-sm-4 text-center">
+							<label id="total-touchpoint-label" > Total Number of Touchpoint(Meaningful): </label> <span id="total-touchpoint" > </span> 
+							<div id="touch-point-chart"> Chart Div</div>
+					  </div>
+				 </div>
+			  </div>
+		  </div>
+
+		{% if accountdetails._fields.activityhistories && accountdetails._fields.activityhistories.records %}
+	          <div class="row no-padding">
+	  	        <div class="col-lg-5 no-padding ">
+		        </div> 
+		        <div class="col-lg-2 text-center no-padding ">
+					<label> Timline :  </label>	 <span id="client-timeline"> 365 days</span>
+	 	        </div>
+		        <div class="col-lg-5 no-padding">
+		        </div>
+	          </div>
+	          
+	          <div class="row no-padding timeline-div">
+		        <div class="col-lg-5 no-padding timeline-div">
+		        </div>
+		        <div class="col-lg-2 no-padding timeline-div">
+	 	        	<canvas id="first_timeline_canvas" class="first-timeline"> </canvas>
+	 	        </div>
+		        <div class="col-lg-5 no-padding timeline-div">
+		        </div>
+	          </div>
+	          
+			{% for x in accountdetails._fields.activityhistories.records %}
+				{% if loop.index % 2 == 0 %}
+		          <div class="row no-padding timeline-div" >
+		  	        <div class="col-lg-5 no-padding timeline-div">
+						<h7 class="right-aligned-div-text timeline-div">
+							{% if x.ActivityDate %}  {{ x.ActivityDate }}	{% endif %} 
+							<br>
+							{% if x.Subject %}  {{ x.Subject }}	{% endif %}
+						</h7>
+			        </div> 
+			        <div class="col-lg-2 no-padding timeline-div" data-container="body" data-toggle="popover" data-placement="left" data-title=" {% if x.ActivityDate %}  {{ x.ActivityDate }}	- {% endif %} {{ x.Subject }}"  data-content="{% if x.Description %} {{ x.Description }}	{% endif %} ">
+						<canvas id="left_canvas_{{ loop.index }}"  class="left-timeline"> </canvas>
+		 	        </div>
+			        <div class="col-lg-5 no-padding timeline-div">
+			        </div>
+		          </div>
+				{% endif %}
+				{% if loop.index % 2 != 0 %}
+		          <div class="row no-padding timeline-div" >
+		  	        <div class="col-lg-5 no-padding timeline-div">
+			        </div> 
+			        <div class="col-lg-2 no-padding timeline-div" data-container="body" data-toggle="popover" data-placement="right" data-title=" {% if x.ActivityDate %}  {{ x.ActivityDate }} - {% endif %} {{ x.Subject }}"  data-content="{% if x.Description %} {{ x.Description }}	{% endif %} ">
+						<canvas id="right_canvas_{{ loop.index }}" class="right-timeline"> </canvas>
+		 	        </div>
+			        <div class="col-lg-5 no-padding timeline-div">
+						<h7 class="left-aligned-div-text timeline-div">
+						    {% if x.ActivityDate %}  {{ x.ActivityDate }}	{% endif %} 
+							<br>
+							{% if x.Subject %}  {{ x.Subject }}	{% endif %}
+						</h7>	
+			        </div>
+		          </div>
+				{% endif %}
+			{% endfor %}
+		{% endif %}
+        </div>
+      </div>
+    </div>
+{% endblock %}
+
+{% block bottom-js%}
+	<script>
+		function Touchpoint(desc,number) {
+			this.desc = desc;
+			this.number = number;
+	  	};
+	
+		var activity_map = {};
+		{% if accountdetails._fields.activityhistories && accountdetails._fields.activityhistories.records %}
+			{% for x in accountdetails._fields.activityhistories.records %}
+				type = '{{ x.Subject }}';
+				if(activity_map[type])
+					activity_map[type] += 1;
+				else
+					activity_map[type] = 1;
+			{% endfor %}
+		{% endif %}
+	</script>
+
+	<script >
+	var color_counter = 0;
+
+	$( document ).ready( 
+		function(){
+			console.log('On document ready called');
+	
+		var touchpointStatsArray = new Array();
+		var count=0;
+		for(key in activity_map){
+			touchpointStatsArray[ count++ ] = new Touchpoint( key ,  activity_map[key]);
+		}
+
+		drawChart(touchpointStatsArray, "touch-point-chart",  "total-touchpoint");
+
+			var width = Math.max(document.documentElement.clientWidth, window.innerWidth || 0)
+			var height = Math.max(document.documentElement.clientHeight, window.innerHeight || 0)
+			
+			var content_area_height =  height - $("#header").height() - ($("#client-details").height()) - ($("#footer").height());
+			var content_area_li_height =  content_area_height / 6;
+			var content_area_li_width =  width / 9;
+
+			$(".timeline-div").each(function(){ 
+  				$(this).height(content_area_li_height);
+  			} );
+  			
+  			
+			$(".right-aligned-div-text").each(function(){ 
+				$(this).height($(this).parent().height());
+				$(this).width($(this).parent().width());
+  			} );
+
+			$(".first-timeline").each(function(){ 
+				drawCanvas(this.id,content_area_li_height, content_area_li_width, "FIRST");
+			} );
+			
+			$(".left-timeline").each(function(){  
+				drawCanvas(this.id,content_area_li_height, content_area_li_width, "LEFT");
+			} );
+
+			$(".right-timeline").each(function(){  
+				drawCanvas(this.id,content_area_li_height, content_area_li_width, "RIGHT");
+			} );
+			
+		}
+	);
+	
+    $('.data-load-controls').each(function() {
+    	
+    	var account_id = $('#client-id').text().trim();
+    	var service_url = $(this).attr('service_url');
+    	var caller_id = $(this).attr('id');
+		
+		$.ajax({
+		  url: "/"+service_url,
+		  data: {"accountid": account_id},
+		  success:function(data){  
+		  	console.log(service_url+" : "+data);
+		  	$("#"+caller_id).text(data); 
+		  }
+		});
+
+    });
+
+	calculateTimlineDuration = function(){
+		var today = new Date();
+		var clientSinceDate = $("#client-since").text();
+		
+		alert(clientSinceDate +" : "+ today );
+	};
+	</script>  
+{% endblock %}

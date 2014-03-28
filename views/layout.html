@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" href="assets/ico/favicon.ico">
+
+    <title>TimelineIQ</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <style>
+    	body { padding-bottom: 5%; }
+    </style>
+
+	{% block head-css%}
+	{% endblock %}
+	{% block head-js%}
+	{% endblock %}
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="/">TimelineIQ</a>
+        </div>
+        <div class="navbar-collapse collapse">
+	    {% if userdetails %}
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/dashboard">Dashboard</a></li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown"> {{ userdetails.display_name }} <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li><a href="#">Settings</a></li>
+                <li><a href="/userprofile">My Details</a></li>
+                <li class="divider">..</li>
+                <li class="dropdown-header">User Session</li>
+                <li><a href="/logout"> Logout </a></li>
+              </ul>
+            </li>
+          </ul>
+	    {% endif %}
+	    {% if !userdetails %}
+          <ul class="nav navbar-nav navbar-right">
+            <li><a data-toggle="modal" data-target="#loginModal" >Login</a></li>
+		  </ul>
+	    {% endif %}
+        </div><!--/.navbar-collapse -->
+      </div>
+    </div>
+
+	<!-- Modal -->
+	<div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	  <div class="modal-dialog">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+	        <h4 class="modal-title">Login to Salesforce or TimelineIQ</h4>
+	      </div>
+	      <div class="modal-body">
+		      <form class="form-signin" action="/validatetiqlogin" method="POST" role="form">
+		        <input type="email" name="username" class="form-control" placeholder="Email address" required autofocus>
+		        <input type="password" name="userpass" class="form-control" placeholder="Password" required>
+		        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+		      </form>
+		         <div class="strike">
+				   <span> OR </span>
+				</div>
+				
+		        <a href="/sflogin" class="btn btn-lg btn-info btn-block">Sign in with Salesforce</a>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+
+	<!-- Error - Modal -->
+	<div class="modal" id="errorModal" tabindex="-1" role="dialog" aria-hidden="true">
+	  <div class="modal-dialog">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			<strong> <span style="color:red"> Ooops! Error Occured </span> </strong>
+	      </div>
+	      <div class="modal-body">
+		      <div class="alert alert-danger">
+		         {{ error_message }}
+		      </div>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+
+	{% block content %}
+	{% endblock %}
+ 
+    <div id="footer" class="navbar navbar-inverse navbar-fixed-bottom">
+      <div class="container text-center">
+	      <h3>Timeline IQ</h3>
+      	  <p class="copyright">&copy; 2014 TimelineIQ Inc. All rights reserved. <a href="/legal/terms" data-track="Footer: TOS">Terms of Service</a> &amp; <a href="/legal/privacy" data-track="Privacy">Privacy Policy.</a></p>
+      </div>
+    </div>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="js/jquery-1.11.0.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/docs.min.js"></script>
+
+	{% block bottom-js%}
+	{% endblock %}
+
+  </body>
+</html>
