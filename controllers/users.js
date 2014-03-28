@@ -24,7 +24,7 @@ module.exports.controller = function(app, org) {
 		res.redirect('/dashboard');
   });
   
-  app.get('/validatetiqlogin', checkIfUserIsAutherisedBySalesForceUsingUserIdAndPass, getUserDetailsFromSalesforce, getUserRolesAndLicenseDetailsFromTimelineIQ, checkIfUserIsActiveAndHasValidAppLicense, function(req, res) {
+  app.post('/validatetiqlogin', checkIfUserIsAutherisedBySalesForceUsingUserIdAndPass, getUserDetailsFromSalesforce, getUserRolesAndLicenseDetailsFromTimelineIQ, checkIfUserIsActiveAndHasValidAppLicense, function(req, res) {
 		res.redirect('/dashboard');
   });
 	
